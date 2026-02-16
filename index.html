@@ -7,32 +7,51 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;1,500;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
       body {
         font-family: 'Inter', sans-serif;
         -webkit-font-smoothing: antialiased;
-        background-color: #f8f9fa;
+        background-color: #f3f4f6;
       }
       .font-serif {
         font-family: 'Playfair Display', serif;
       }
-      /* Custom print styles */
+      .fade-enter {
+        opacity: 0;
+        transform: translateY(10px);
+        animation: fadeIn 0.5s forwards ease-out;
+      }
+      @keyframes fadeIn {
+        to { opacity: 1; transform: translateY(0); }
+      }
+      
+      /* Interactive Details */
+      details > summary {
+        list-style: none;
+        cursor: pointer;
+      }
+      details > summary::-webkit-details-marker {
+        display: none;
+      }
+      details[open] summary ~ * {
+        animation: sweep .3s ease-in-out;
+      }
+      @keyframes sweep {
+        0%    {opacity: 0; transform: translateY(-10px)}
+        100%  {opacity: 1; transform: translateY(0)}
+      }
+
+      /* Print styles */
       @media print {
-        body {
-          background-color: white;
-        }
-        .no-print {
-          display: none !important;
-        }
-        .page-break {
-          page-break-inside: avoid;
-        }
-        main {
-          box-shadow: none !important;
-          max-width: 100% !important;
-        }
+        body { background-color: white; }
+        .no-print { display: none !important; }
+        .page-break { page-break-inside: avoid; }
+        details[open] summary ~ * { animation: none; }
+        main { box-shadow: none !important; max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
+        .expand-print { display: block !important; height: auto !important; opacity: 1 !important; }
+        .hide-print-icon { display: none !important; }
       }
     </style>
 <script type="importmap">
@@ -40,203 +59,286 @@
   "imports": {
     "react": "https://esm.sh/react@^19.2.4",
     "react/": "https://esm.sh/react@^19.2.4/",
-    "lucide-react": "https://esm.sh/lucide-react@^0.563.0"
+    "lucide-react": "https://esm.sh/lucide-react@^0.564.0"
   }
 }
 </script>
 </head>
-<body class="min-h-screen py-8 px-4 sm:px-6 print:p-0 bg-[#f3f4f6]">
+<body class="min-h-screen py-8 px-4 sm:px-6 print:p-0">
     
-    <!-- Main Document Paper -->
-    <main class="max-w-4xl mx-auto bg-white shadow-2xl rounded-none md:rounded-xl overflow-hidden print:shadow-none print:max-w-none print:rounded-none">
+    <!-- Main Document -->
+    <main class="max-w-5xl mx-auto bg-white shadow-2xl rounded-xl overflow-hidden print:shadow-none print:rounded-none">
         
         <div class="p-8 md:p-16 print:p-12">
           
             <!-- Header -->
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-gray-100 pb-8 mb-8">
-                <div class="mb-6 md:mb-0">
-                    <!-- Text Only Logo -->
-                    <div class="text-2xl font-bold tracking-tight text-gray-900">WeSpeak</div>
-                    
-                    <div class="mt-6 text-sm text-gray-500 uppercase tracking-widest font-medium">Cotización</div>
-                    <h1 class="text-3xl font-serif font-medium text-gray-900 mt-1">Videos UFC</h1>
+            <div class="flex flex-col md:flex-row justify-between items-start border-b border-gray-100 pb-10 mb-10 fade-enter" style="animation-delay: 0.1s;">
+                <div class="mb-8 md:mb-0">
+                    <div class="text-2xl font-bold tracking-tight text-gray-900 mb-6">WeSpeak</div>
+                    <div class="space-y-1">
+                        <div class="text-xs font-bold text-gray-400 uppercase tracking-widest">Proyecto</div>
+                        <h1 class="text-4xl font-serif text-gray-900 italic leading-tight">Producción Audiovisual <br/>& Cobertura Internacional</h1>
+                    </div>
                 </div>
                 
-                <div class="text-left md:text-right space-y-1">
-                    <div class="text-sm text-gray-500">Fecha de emisión</div>
-                    <div class="font-medium text-gray-900">10 de Febrero, 2026</div>
-                    
-                    <div class="mt-4 text-sm text-gray-500">Cliente</div>
-                    <div class="font-medium text-gray-900 text-lg">UFC</div>
+                <div class="text-left md:text-right space-y-6">
+                    <div>
+                        <div class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Cliente</div>
+                        <div class="text-xl font-medium text-gray-900">Jonathan Kubben</div>
+                    </div>
+                    <div>
+                        <div class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Fecha</div>
+                        <div class="font-medium text-gray-600">Febrero, 2026</div>
+                    </div>
                 </div>
             </div>
 
-            <div class="mt-12 space-y-12">
+            <!-- Scope -->
+            <div class="mb-16 fade-enter" style="animation-delay: 0.2s;">
+                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4 border-l-2 border-black pl-3">Alcance General</h3>
+                <p class="text-xl font-light text-gray-800 leading-relaxed">
+                    Producción, cobertura y desarrollo de contenido audiovisual estratégico en <span class="font-medium text-black">México y Estados Unidos</span>. El proyecto abarca la producción base de 7 piezas, la cobertura de 7 eventos internacionales, gestión logística integral y la generación de assets optimizados para redes sociales.
+                </p>
+            </div>
+
+            <div class="space-y-16">
                 
-                <!-- Scope Section -->
-                <div class="mb-10 page-break">
-                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4 border-l-2 border-black pl-3">
-                        Alcance del Proyecto
-                    </h3>
-                    <div class="pl-4 md:pl-0">
-                        <p class="text-gray-700 leading-relaxed text-lg font-light">
-                            Producción y edición de 7 videos de contenido audiovisual relacionados con UFC, realizados a través de 4 llamados de grabación, obteniendo entre 2 y 3 piezas por llamado, conforme a la planeación creativa y operativa del proyecto.
-                        </p>
+                <!-- Section 1: Base Production -->
+                <section class="fade-enter page-break" style="animation-delay: 0.3s;">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-lg font-serif italic font-semibold text-gray-900">01. Producción Base (4 Llamados)</h3>
+                        <span class="text-sm font-medium text-gray-400 bg-gray-50 px-3 py-1 rounded-full">7 Videos Totales</span>
                     </div>
-                </div>
-
-                <!-- Cost Breakdown Section -->
-                <div class="mb-10 page-break">
-                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4 border-l-2 border-black pl-3">
-                        Desglose de Costos
-                    </h3>
-                    <div class="pl-4 md:pl-0 space-y-4">
-                        
-                        <!-- Item 1 -->
-                        <div class="group relative bg-white rounded-xl border border-gray-100 p-6 hover:shadow-md transition-shadow duration-300">
-                            <div class="flex flex-col md:flex-row justify-between md:items-start gap-4">
-                                <div class="flex-1">
-                                    <div class="flex items-baseline gap-3 mb-2">
-                                        <span class="text-gray-300 font-serif text-xl italic">01</span>
-                                        <h4 class="text-lg font-medium text-gray-900">Producción Audiovisual</h4>
-                                    </div>
-                                    
-                                    <ul class="space-y-2 mt-4 ml-8">
-                                        <li class="flex items-start gap-2 text-sm text-gray-600">
-                                            <i data-lucide="check" class="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0"></i>
-                                            <span>Pre-producción, logística y coordinación general</span>
-                                        </li>
-                                        <li class="flex items-start gap-2 text-sm text-gray-600">
-                                            <i data-lucide="check" class="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0"></i>
-                                            <span>Rodaje en locación (4 jornadas completas)</span>
-                                        </li>
-                                        <li class="flex items-start gap-2 text-sm text-gray-600">
-                                            <i data-lucide="check" class="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0"></i>
-                                            <span>Crew cinematográfico y equipamiento de gama alta</span>
-                                        </li>
-                                        <li class="flex items-start gap-2 text-sm text-gray-600">
-                                            <i data-lucide="check" class="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0"></i>
-                                            <span class="font-medium text-gray-800">Dirección de arte y diseño de iluminación cinematográfica</span>
-                                        </li>
-                                    </ul>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Card 1 -->
+                        <div class="group bg-white border border-gray-100 p-6 rounded-xl hover:shadow-lg transition-all duration-300 hover:border-gray-200">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="p-2 bg-gray-50 rounded-lg group-hover:bg-black group-hover:text-white transition-colors">
+                                    <i data-lucide="clapperboard" class="w-5 h-5"></i>
                                 </div>
-
-                                <div class="mt-4 md:mt-0 md:text-right pl-8">
-                                    <div class="text-xl font-semibold text-gray-900 font-serif">
-                                        $70,000.00 <span class="text-xs font-sans text-gray-400 font-normal">MXN</span>
-                                    </div>
-                                </div>
+                                <span class="font-serif font-medium text-lg">$70,000</span>
                             </div>
+                            <h4 class="font-bold text-gray-900 mb-2">Producción Audiovisual</h4>
+                            <ul class="text-sm text-gray-600 space-y-2">
+                                <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-green-600"></i> 4 jornadas completas de rodaje</li>
+                                <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-green-600"></i> Crew cinematográfico profesional</li>
+                                <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-green-600"></i> Dirección de arte e iluminación</li>
+                            </ul>
                         </div>
 
-                        <!-- Item 2 -->
-                        <div class="group relative bg-white rounded-xl border border-gray-100 p-6 hover:shadow-md transition-shadow duration-300">
-                            <div class="flex flex-col md:flex-row justify-between md:items-start gap-4">
-                                <div class="flex-1">
-                                    <div class="flex items-baseline gap-3 mb-2">
-                                        <span class="text-gray-300 font-serif text-xl italic">02</span>
-                                        <h4 class="text-lg font-medium text-gray-900">Post-producción y Edición</h4>
-                                    </div>
-                                    
-                                    <ul class="space-y-2 mt-4 ml-8">
-                                        <li class="flex items-start gap-2 text-sm text-gray-600">
-                                            <i data-lucide="check" class="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0"></i>
-                                            <span>Edición de 7 videos finales (Corte Final)</span>
-                                        </li>
-                                        <li class="flex items-start gap-2 text-sm text-gray-600">
-                                            <i data-lucide="check" class="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0"></i>
-                                            <span>Color Grading profesional y mezcla de audio</span>
-                                        </li>
-                                        <li class="flex items-start gap-2 text-sm text-gray-600">
-                                            <i data-lucide="check" class="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0"></i>
-                                            <span>Adaptación de formatos para redes sociales</span>
-                                        </li>
-                                        <li class="flex items-start gap-2 text-sm text-gray-600">
-                                            <i data-lucide="check" class="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0"></i>
-                                            <span>Masterización y exportación en alta resolución</span>
-                                        </li>
-                                    </ul>
+                        <!-- Card 2 -->
+                        <div class="group bg-white border border-gray-100 p-6 rounded-xl hover:shadow-lg transition-all duration-300 hover:border-gray-200">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="p-2 bg-gray-50 rounded-lg group-hover:bg-black group-hover:text-white transition-colors">
+                                    <i data-lucide="monitor-play" class="w-5 h-5"></i>
                                 </div>
-
-                                <div class="mt-4 md:mt-0 md:text-right pl-8">
-                                    <div class="text-xl font-semibold text-gray-900 font-serif">
-                                        $46,200.00 <span class="text-xs font-sans text-gray-400 font-normal">MXN</span>
-                                    </div>
-                                </div>
+                                <span class="font-serif font-medium text-lg">$46,200</span>
                             </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- Totals Section -->
-                <div class="mb-10 page-break">
-                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4 border-l-2 border-black pl-3">
-                        Resumen Financiero
-                    </h3>
-                    <div class="pl-4 md:pl-0">
-                        <div class="bg-gray-50 rounded-2xl p-8">
-                            <div class="flex flex-col gap-3 max-w-xs ml-auto">
-                                <div class="flex justify-between text-gray-500 text-sm">
-                                    <span>Subtotal</span>
-                                    <span>$116,200.00</span>
-                                </div>
-                                <div class="flex justify-between text-gray-500 text-sm">
-                                    <span>IVA (16%)</span>
-                                    <span>$18,592.00</span>
-                                </div>
-                                <div class="h-px bg-gray-200 my-1"></div>
-                                <div class="flex justify-between text-gray-900 text-xl font-serif font-medium">
-                                    <span>Total</span>
-                                    <span>$134,792.00</span>
-                                </div>
-                                <div class="text-right text-xs text-gray-400 mt-1">
-                                    MXN (Peso Mexicano)
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Conditions Section -->
-                <div class="mb-10 page-break">
-                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4 border-l-2 border-black pl-3">
-                        Condiciones Generales
-                    </h3>
-                    <div class="pl-4 md:pl-0">
-                        <div class="bg-gray-50 p-6 rounded-lg border border-gray-100">
-                            <ul class="space-y-3 text-sm text-gray-600 list-disc list-inside">
-                                <li>La cotización considera únicamente el alcance descrito en este documento.</li>
-                                <li>Cualquier cambio, revisión adicional o requerimiento fuera de lo estipulado se cotizará por separado.</li>
-                                <li>
-                                    Vigencia de la cotización: <span class="font-medium text-gray-900">30 días</span> a partir de la fecha de emisión.
-                                </li>
-                                <li>
-                                    Forma de pago: 50% de anticipo para iniciar el proyecto y 50% contra entrega de materiales finales.
-                                </li>
+                            <h4 class="font-bold text-gray-900 mb-2">Postproducción</h4>
+                            <ul class="text-sm text-gray-600 space-y-2">
+                                <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-green-600"></i> Edición y Color Grading</li>
+                                <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-green-600"></i> Diseño sonoro y mezcla</li>
+                                <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-green-600"></i> Adaptaciones verticales (Reels/TikTok)</li>
                             </ul>
                         </div>
                     </div>
-                </div>
+                    
+                    <div class="mt-4 flex justify-end">
+                         <div class="text-right">
+                             <p class="text-xs text-gray-400 uppercase tracking-wider">Total Producción Base (c/ IVA)</p>
+                             <p class="text-2xl font-serif font-semibold text-gray-900">$134,792 <span class="text-sm text-gray-500 font-sans font-normal">MXN</span></p>
+                         </div>
+                    </div>
+                </section>
+
+                <!-- Section 2: International Coverage -->
+                <section class="fade-enter page-break" style="animation-delay: 0.4s;">
+                    <details class="group bg-gray-50 rounded-xl border border-gray-100 overflow-hidden" open>
+                        <summary class="p-6 md:p-8 flex flex-col md:flex-row gap-6 justify-between cursor-pointer hover:bg-gray-100 transition-colors">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <h3 class="text-lg font-serif italic font-semibold text-gray-900">02. Cobertura Eventos Internacionales</h3>
+                                    <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 transition-transform group-open:rotate-180 hide-print-icon"></i>
+                                </div>
+                                <p class="text-gray-600 text-sm max-w-xl">Cobertura integral de 7 eventos (2 en México, 5 en Estados Unidos). Incluye 2 camarógrafos y dirección ejecutiva por ciudad.</p>
+                            </div>
+                            <div class="text-left md:text-right">
+                                <div class="text-2xl font-serif font-medium text-gray-900">$1,190,000 <span class="text-xs font-sans text-gray-500 align-top">+IVA</span></div>
+                                <div class="text-xs text-gray-500 font-medium mt-1">Fee Total por 7 Ciudades</div>
+                            </div>
+                        </summary>
+                        
+                        <div class="px-6 pb-8 md:px-8 border-t border-gray-200 pt-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div>
+                                    <h4 class="text-xs font-bold text-gray-900 uppercase tracking-widest mb-3">Entregables por Ciudad</h4>
+                                    <ul class="space-y-3">
+                                        <li class="flex items-start gap-3 text-sm text-gray-700">
+                                            <div class="w-1.5 h-1.5 rounded-full bg-black mt-1.5"></div>
+                                            <span><strong>1 Video Recap Oficial</strong> de alta calidad.</span>
+                                        </li>
+                                        <li class="flex items-start gap-3 text-sm text-gray-700">
+                                            <div class="w-1.5 h-1.5 rounded-full bg-black mt-1.5"></div>
+                                            <span><strong>8–12 Clips Verticales</strong> optimizados para redes.</span>
+                                        </li>
+                                        <li class="flex items-start gap-3 text-sm text-gray-700">
+                                            <div class="w-1.5 h-1.5 rounded-full bg-black mt-1.5"></div>
+                                            <span>Respaldo diario y curaduría de material.</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-bold text-gray-900 uppercase tracking-widest mb-3">Equipo Humano</h4>
+                                    <div class="flex items-center gap-4 bg-white p-4 rounded-lg border border-gray-200">
+                                        <div class="flex -space-x-2">
+                                            <div class="w-8 h-8 rounded-full bg-gray-200 border-2 border-white flex items-center justify-center text-xs">A</div>
+                                            <div class="w-8 h-8 rounded-full bg-gray-300 border-2 border-white flex items-center justify-center text-xs">B</div>
+                                            <div class="w-8 h-8 rounded-full bg-gray-800 border-2 border-white flex items-center justify-center text-xs text-white">+2</div>
+                                        </div>
+                                        <div class="text-sm">
+                                            <span class="block font-medium text-gray-900">4 Personas por Ciudad</span>
+                                            <span class="text-gray-500 text-xs">2 Camarógrafos + Dirección + Producción</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-gray-400 mt-3 text-right">Fee por ciudad: $170,000 MXN</p>
+                                </div>
+                            </div>
+                        </div>
+                    </details>
+                </section>
+
+                <!-- Section 3: Logistics -->
+                <section class="fade-enter page-break" style="animation-delay: 0.5s;">
+                    <details class="group bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+                        <summary class="p-6 md:p-8 flex flex-col md:flex-row gap-6 justify-between cursor-pointer">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <h3 class="text-lg font-serif italic font-semibold text-gray-900">03. Travel & Logistics</h3>
+                                    <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 transition-transform group-open:rotate-180 hide-print-icon"></i>
+                                </div>
+                                <p class="text-gray-600 text-sm">Logística completa para 4 personas: Vuelos, hospedaje (2 habitaciones), transporte local, viáticos, renta de equipo y seguros.</p>
+                            </div>
+                            <div class="text-left md:text-right">
+                                <div class="text-2xl font-serif font-medium text-gray-900">$1,193,000 <span class="text-xs font-sans text-gray-500 align-top">MXN</span></div>
+                                <div class="text-xs text-gray-500 font-medium mt-1">Total Logística</div>
+                            </div>
+                        </summary>
+                        
+                        <div class="px-6 pb-8 md:px-8 border-t border-gray-100 pt-6">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                <!-- Location Items -->
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-100">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <span class="font-bold text-gray-900">Miami</span>
+                                        <i data-lucide="map-pin" class="w-3 h-3 text-gray-400"></i>
+                                    </div>
+                                    <span class="text-sm text-gray-600">$174,000</span>
+                                </div>
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-100">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <span class="font-bold text-gray-900">New York</span>
+                                        <i data-lucide="map-pin" class="w-3 h-3 text-gray-400"></i>
+                                    </div>
+                                    <span class="text-sm text-gray-600">$218,000</span>
+                                </div>
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-100">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <span class="font-bold text-gray-900">Las Vegas (x2)</span>
+                                        <i data-lucide="map-pin" class="w-3 h-3 text-gray-400"></i>
+                                    </div>
+                                    <span class="text-sm text-gray-600">$352,000</span>
+                                </div>
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-100">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <span class="font-bold text-gray-900">Los Angeles</span>
+                                        <i data-lucide="map-pin" class="w-3 h-3 text-gray-400"></i>
+                                    </div>
+                                    <span class="text-sm text-gray-600">$193,000</span>
+                                </div>
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-100 col-span-1 sm:col-span-2 lg:col-span-2">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <span class="font-bold text-gray-900">México (2 Eventos)</span>
+                                        <i data-lucide="map-pin" class="w-3 h-3 text-gray-400"></i>
+                                    </div>
+                                    <span class="text-sm text-gray-600">$256,000</span>
+                                </div>
+                            </div>
+                        </div>
+                    </details>
+                </section>
+
+                <!-- Section 4: Extra (Optional) -->
+                <section class="fade-enter border border-dashed border-gray-300 rounded-xl p-6 opacity-75 hover:opacity-100 transition-opacity page-break" style="animation-delay: 0.6s;">
+                    <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                        <div class="flex items-center gap-4">
+                            <div class="bg-gray-100 p-3 rounded-full">
+                                <i data-lucide="plus" class="w-5 h-5 text-gray-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900">Video Adicional (Opcional)</h4>
+                                <p class="text-sm text-gray-500">Costo unitario si se requieren piezas extras.</p>
+                            </div>
+                        </div>
+                        <div class="text-xl font-serif font-medium text-gray-600">$35,000 <span class="text-xs font-sans text-gray-400">+IVA</span></div>
+                    </div>
+                </section>
+                
+                <!-- Summary -->
+                <section class="fade-enter mt-12 bg-black text-white rounded-2xl p-8 md:p-10 page-break" style="animation-delay: 0.7s;">
+                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">Resumen General de Inversión</h3>
+                    
+                    <div class="space-y-4 mb-8 border-b border-gray-800 pb-8">
+                        <div class="flex justify-between text-sm md:text-base text-gray-400">
+                            <span>Producción Base (c/ IVA)</span>
+                            <span class="text-white font-medium">$134,792</span>
+                        </div>
+                        <div class="flex justify-between text-sm md:text-base text-gray-400">
+                            <span>Fee Cobertura Internacional</span>
+                            <span class="text-white font-medium">$1,190,000</span>
+                        </div>
+                        <div class="flex justify-between text-sm md:text-base text-gray-400">
+                            <span>Travel & Logistics</span>
+                            <span class="text-white font-medium">$1,193,000</span>
+                        </div>
+                        <div class="flex justify-between text-sm md:text-base text-gray-200">
+                            <span>Agency Fee (30%)</span>
+                            <span class="text-white font-medium">$749,760</span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row justify-between items-end gap-4">
+                        <div class="text-gray-500 text-sm max-w-xs">
+                            * El total general se compone de la suma de los rubros anteriores más el Fee de Agencia. IVA aplicable sobre los Fees y Logística.
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xs text-gray-400 uppercase mb-2">Total General del Proyecto</div>
+                            <div class="text-3xl md:text-5xl font-serif font-medium tracking-tight">$3,267,552</div>
+                            <div class="text-sm text-gray-500 mt-2 font-medium">MXN + IVA aplicable</div>
+                        </div>
+                    </div>
+                </section>
 
             </div>
 
             <!-- Footer -->
-            <div class="mt-20 pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center text-gray-400 text-sm">
+            <div class="mt-20 pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center text-gray-400 text-xs uppercase tracking-wider">
                 <div class="mb-4 md:mb-0">
-                    © 2026 WeSpeak. Todos los derechos reservados.
+                    WeSpeak © 2026
                 </div>
-                <div class="flex gap-6">
-                    <span>confidencial</span>
-                    <span>Q-2026-001</span>
+                <div>
+                    Confidencial
                 </div>
             </div>
 
         </div>
     </main>
     
-    <div class="max-w-4xl mx-auto mt-8 text-center text-gray-400 text-xs no-print">
-        <p>Este documento es una presentación digital de servicios profesionales.</p>
+    <div class="max-w-5xl mx-auto mt-8 text-center text-gray-400 text-xs no-print mb-12">
+        <button onclick="window.print()" class="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm hover:shadow-md transition-shadow text-gray-700 cursor-pointer">
+            <i data-lucide="printer" class="w-4 h-4"></i>
+            <span>Imprimir Cotización</span>
+        </button>
     </div>
 
     <script>
